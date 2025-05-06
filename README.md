@@ -1,4 +1,4 @@
-##🚀 AWS Rekognition Tools - Análise e Extração de Tags de Imagens
+## 🚀 AWS Rekognition Tools - Análise e Extração de Tags de Imagens
 
 Sistemas de cadastros de projetos para fins de:
 
