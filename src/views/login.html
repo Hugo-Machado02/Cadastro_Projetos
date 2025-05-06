@@ -1,38 +1,42 @@
 <!DOCTYPE html>
 <html lang="ot-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+        crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../Static/css/style.css">
     <title>Login</title>
 </head>
+
 <body>
     <main class="d-flex vh-100 align-items-center justify-content-center">
-            <form action="#" id="formLogin" class="bgPersonalizado w-25 p-5 rounded-4 shadow-lg">
-                <div class="mb-5 text-center">
-                    <h1>Login</h1>
+        <form action="#" id="formLogin" class="bgPersonalizado w-25 p-5 rounded-4 shadow">
+            <div class="mb-5 text-center">
+                <h1>Login</h1>
+            </div>
+            <div class="mb-3">
+                <label for="emailLogin" class="form-label mb-0">Email</label>
+                <input type="email" class="form-control" id="emailLogin" placeholder="Digite o Login">
+            </div>
+            <div class="mb-4">
+                <label for="passwordLogin" class="form-label mb-0">Senha</label>
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" id="passwordLogin" placeholder="Digite a Senha">
+                    <button class="btn btn-outline-secondary material-icons-round" type="button"
+                        id="visualizacaoLogin">visibility</button>
                 </div>
-                <div class="mb-4">
-                    <label for="emailLogin" class="form-label mb-0">Email</label>
-                    <input type="email" class="form-control" id="emailLogin" placeholder="Digite o Login">
-                </div>
-                <div class="mb-5">
-                    <label for="passwordLogin" class="form-label mb-0">Senha</label>
-                    <div class="input-group mb-3">
-                        <input type="password" class="form-control" id="passwordLogin" placeholder="Digite a Senha">
-                        <button class="btn btn-outline-secondary material-icons-round" type="button" id="visualizacaoLogin">visibility_off</button>
-                        <!-- visibility_off -->
-                    </div>
-                    <div class="input-group mb-3">
-                      </div>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary w-50">Entrar</button>
-                </div>
-            </form>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary w-100">Entrar</button>
+            </div>
+        </form>
     </main>
 </body>
+
 </html>
