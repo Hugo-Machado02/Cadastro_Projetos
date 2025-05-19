@@ -1,107 +1,116 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="ot-br">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Usuários</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>
-
-<link rel="stylesheet" href="https://public.codepenassets.com/css/normalize-5.0.0.min.css">
-<link rel="stylesheet" href="../Static/tabelas.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+        crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link rel="stylesheet" href="../Static/css/style.css">
+    <title>Cadastro de Usuários</title>
 </head>
-<body>
 
-<div id="demo">
-  <h1>Cadastro de Usuários</h1>
-  
-  <div class="table-responsive-vertical shadow-z-1">
-    <table id="table" class="table table-hover table-mc-light-blue">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nome Completo</th>
-          <th>usuário</th>
-          <th>Data Cadastro</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td data-title="ID">1</td>
-          <td data-title="Nome Completo">João Mathias Natal</td>
-          <td data-title="Usuário">jnatal</td>
-          <td data-title="Data Cadastro">11/10/2025</td>
-          <td data-title="Status">Ativo</td>
-        </tr>
-        <tr>
-          <td data-title="ID">2</td>
-          <td data-title="Nome Completo">Ana Paula Silveira</td>
-          <td data-title="Usuário">apaula</td>
-          <td data-title="Data Cadastro">12/10/2025</td>
-          <td data-title="Status">Ativo</td>
-        </tr>
-        <tr>
-          <td data-title="ID">3</td>
-          <td data-title="Nome Completo">Carlos Eduardo Santos</td>
-          <td data-title="Usuário">csantos</td>
-          <td data-title="Data Cadastro">13/10/2025</td>
-          <td data-title="Status">Inativo</td>
-        </tr>
-        <tr>
-          <td data-title="ID">4</td>
-          <td data-title="Nome Completo">Mariana Costa Lima</td>
-          <td data-title="Usuário">mcosta</td>
-          <td data-title="Data Cadastro">14/10/2025</td>
-          <td data-title="Status">Ativo</td>
-        </tr>
-        <tr>
-          <td data-title="ID">5</td>
-          <td data-title="Nome Completo">Pedro Henrique Rocha</td>
-          <td data-title="Usuário">phrocha</td>
-          <td data-title="Data Cadastro">15/10/2025</td>
-          <td data-title="Status">Inativo</td>
-        </tr>
-        <tr>
-          <td data-title="ID">6</td>
-          <td data-title="Nome Completo">Luciana Almeida Prado</td>
-          <td data-title="Usuário">lprado</td>
-          <td data-title="Data Cadastro">16/10/2025</td>
-          <td data-title="Status">Ativo</td>
-        </tr>
-        <tr>
-          <td data-title="ID">7</td>
-          <td data-title="Nome Completo">Thiago Ramos Pereira</td>
-          <td data-title="Usuário">tramos</td>
-          <td data-title="Data Cadastro">17/10/2025</td>
-          <td data-title="Status">Ativo</td>
-        </tr>
-        <tr>
-          <td data-title="ID">8</td>
-          <td data-title="Nome Completo">Fernanda Oliveira Silva</td>
-          <td data-title="Usuário">fosilva</td>
-          <td data-title="Data Cadastro">18/10/2025</td>
-          <td data-title="Status">Inativo</td>
-        </tr>
-        <tr>
-          <td data-title="ID">9</td>
-          <td data-title="Nome Completo">Bruno César Azevedo</td>
-          <td data-title="Usuário">bazevedo</td>
-          <td data-title="Data Cadastro">19/10/2025</td>
-          <td data-title="Status">Ativo</td>
-        </tr>
-        <tr>
-          <td data-title="ID">10</td>
-          <td data-title="Nome Completo">Isabela Martins Souza</td>
-          <td data-title="Usuário">imsouza</td>
-          <td data-title="Data Cadastro">20/10/2025</td>
-          <td data-title="Status">Ativo</td>
-        </tr>
-      </tbody>      
-    </table>
-  </div>
-  <div class="containerBtn">
-    <button class="btn">Adicionar Usuário</button>
-  </div>
+<body>
+    <main class="d-flex vh-100 align-items-center justify-content-center">
+        <form action="#" id="formLogin" class="bgPersonalizado w-75 p-5 rounded-4 shadow">
+            <div class="mb-5 text-center">
+                <h1>Cadastro de Usuários</h1>
+            </div>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="row">ID</th>
+                        <th scope="row">Nome Completo</th>
+                        <th scope="row">Usuário</th>
+                        <th scope="row">Data Cadastro</th>
+                        <th scope="row">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>João Mathias Natal</td>
+                        <td>jnatal</td>
+                        <td>11/10/2025</td>
+                        <td>Ativo</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Ana Paula Silveira</td>
+                        <td>apaula</td>
+                        <td>12/10/2025</td>
+                        <td>Ativo</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Carlos Eduardo Santos</td>
+                        <td>csantos</td>
+                        <td>13/10/2025</td>
+                        <td>Inativo</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">4</th>
+                        <td>Mariana Costa Lima</td>
+                        <td>mcosta</td>
+                        <td>14/10/2025</td>
+                        <td>Ativo</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">5</th>
+                        <td>Pedro Henrique Rocha</td>
+                        <td>phrocha</td>
+                        <td>15/10/2025</td>
+                        <td>Inativo</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">6</th>
+                        <td>Luciana Almeida Prado</td>
+                        <td>lprado</td>
+                        <td>16/10/2025</td>
+                        <td>Ativo</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">7</th>
+                        <td>Thiago Ramos Pereira</td>
+                        <td>tramos</td>
+                        <td>17/10/2025</td>
+                        <td>Ativo</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">8</th>
+                        <td>Fernanda Oliveira Silva</td>
+                        <td>fosilva</td>
+                        <td>18/10/2025</td>
+                        <td>Inativo</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">9</th>
+                        <td>Bruno César Azevedo</td>
+                        <td>bazevedo</td>
+                        <td>19/10/2025</td>
+                        <td>Ativo</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">10</th>
+                        <td>Isabela Martins Souza</td>
+                        <td>imsouza</td>
+                        <td>20/10/2025</td>
+                        <td>Ativo</td>
+                    </tr>
+                </tbody>
+
+            </table>
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary w-auto float-end">Adicionar Usuário</button>
+            </div>
+        </form>
+
+    </main>
 
 </body>
+
 </html>
