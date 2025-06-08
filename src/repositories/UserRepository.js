@@ -1,16 +1,10 @@
-const connectionDb = require("../db/connection");
 const UserModel = require("../models/UserModel");
 
 class UserRepository{
     async createUser(user){
         try {
-            const db = await connectionDb();
-            const { name, email, password } = user;
-            const result = await db.run(
-                "INSERT INTO user (name, email, password) VALUES (?, ?, ?)",
-                [name, email, password]
-            );
-            return {sucess: true};
+            await UserModel.create(user);
+            return {sucess: true}
         } catch (err) {
             return {sucess: false, error: err};
         }
@@ -18,12 +12,7 @@ class UserRepository{
 
     async getUserId (id) {
         try {
-            const db = await connectionDb();
-            const row = db.get("SELECT id, name, email FROM user WHERE id = ?", [id]);
-            if(row){
-                return new UserModel(row.id, row.name, row.email, row.password);
-            }
-            return null;
+            return await UserModel.findByPk(id)
         } catch (err) {
             return {error: err};
         }
@@ -31,9 +20,7 @@ class UserRepository{
 
     async getUserEmail (email) {
         try {
-            const db = await connectionDb();
-            const row = db.get("SELECT email FROM user WHERE email = ?", [email]);
-            return row;
+            return await UserModel.findOne({ where: { email: email } })
         } catch (err) {
             return {error: err};
         }
@@ -41,33 +28,16 @@ class UserRepository{
 
     async getAllUser() {
         try {
-            const db = await connectionDb();
-            const rows = await db.all("SELECT * FROM user");
-            return rows.map(row => new UserModel(row.id, row.name, row.email, row.password)); // Retorna array de Users
+            return await UserModel.findAll({ order: [['status', 'DESC'], ['name', 'ASC']] });
         } catch (err) {
             return { error: err };
         }
     }
 
-    async updateUser(user){
+    async updateUser(id, dataUpdate){
         try {
-            const db = await connectionDb();
-            const { id, name, email, password } = user;
-            const result = db.run(
-                "UPDATE user SET  name = ?, email = ?, password = ? WHERE id = ?",
-                [name, email, password, id]
-            );
-            return result.changes > 0;
-        } catch (err) {
-            return {error: err};
-        }
-    }
-
-    async deleteUser(id){
-        try {
-            const db = await connectionDb();
-            const result = db.run("DELETE FROM user WHERE id = ?", [id]);
-            return result.changes > 0;
+            const [userUpdate] = await UserModel.update(dataUpdate, { where: { id: id } });
+            return userUpdate === 1;
         } catch (err) {
             return {error: err};
         }
