@@ -19,11 +19,18 @@
     "dev": "nodemon src/server.js"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
     "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "jquery": "^3.7.1",
     "nodemon": "^3.1.10",
     "path": "^0.12.7",
+    "select2": "^4.1.0-rc.0",
+    "sequelize": "^6.37.7",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7"
   }
