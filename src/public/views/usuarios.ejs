@@ -16,16 +16,13 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-primary shadow-sm fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand fs-4 fw-bold text-white" href="/">Meu Sistema</a>
+            <a class="navbar-brand fs-4 fw-bold text-white" href="/">NexusPro</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link text-white" aria-current="page" href="/">Início</a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link active text-white" href="/usuarios">Usuários</a>
                     </li>
@@ -118,11 +115,11 @@
                             aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p>Deseja reativar o usuário <strong id="userNameToActivate"></strong>?</p>
+                        <p>Deseja reativar o usuário <strong id="userNameActivate"></strong>?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary" id="confirmDeleteBtn">Reativar</button>
+                        <button type="button" class="btn btn-primary" id="confirmActivateBtn">Reativar</button>
                     </div>
                 </div>
             </div>
@@ -133,16 +130,16 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content border-danger">
                     <div class="modal-header bg-danger text-white">
-                        <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Exclusão</h5>
+                        <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Inativação</h5>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p>Deseja excluir o usuário <strong id="userNameToDelete"></strong>?</p>
+                        <p>Deseja Desabilitar o usuário <strong id="userNameDelete"></strong>?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Excluir</button>
+                        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Desativar</button>
                     </div>
                 </div>
             </div>
@@ -156,9 +153,7 @@
         </div>
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
 </body>
 
 </html>

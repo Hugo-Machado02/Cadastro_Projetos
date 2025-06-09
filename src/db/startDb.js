@@ -18,7 +18,6 @@ Project.belongsTo(User, {
 async function startDatabase() {
     try {
         await sequelize.sync(); 
-        console.log('Todos os modelos foram sincronizados com sucesso.');
     } catch (error) {
         console.error('Erro ao sincronizar o banco de dados:', error);
         process.exit(1); 
