@@ -1,3 +1,4 @@
+const { error } = require("jquery");
 const ProjectService = require("../services/ProjectService");
 
 module.exports = {
@@ -60,20 +61,20 @@ module.exports = {
             dataEnvio.name = data.name;
         }
 
-        if(data.startDate > data.endDate){
-            errors.endDate = {error: "A data de entrega está antes da data de inicio"};
-        }
-
         if(data.startDate){
-            dataEnvio.startDate;
+            dataEnvio.startDate = data.startDate;
         }
 
         if(data.endDate){
-            dataEnvio.endDate;
+            dataEnvio.endDate = data.endDate;
         }
 
         if(data.managerId){
-            dataEnvio.managerId;
+            dataEnvio.managerId = Number(data.managerId);
+        }
+
+        if(data.startDate > data.endDate){
+            errors.endDate = {error: "A data de entrega está antes da data de inicio"};
         }
 
         if(Object.keys(errors).length > 0){
