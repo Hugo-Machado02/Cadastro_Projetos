@@ -4,9 +4,9 @@ class UserRepository{
     async createUser(user){
         try {
             await UserModel.create(user);
-            return {sucess: true}
+            return {success: true}
         } catch (err) {
-            return {sucess: false, error: err};
+            return {success: false, error: err};
         }
     }
 
@@ -14,7 +14,7 @@ class UserRepository{
         try {
             return await UserModel.findByPk(id)
         } catch (err) {
-            return {error: err};
+            return {success: false, error: err};
         }
     }
 
@@ -22,7 +22,7 @@ class UserRepository{
         try {
             return await UserModel.findOne({ where: { email: email } })
         } catch (err) {
-            return {error: err};
+            return {success: false, error: err};
         }
     }
 
@@ -30,16 +30,24 @@ class UserRepository{
         try {
             return await UserModel.findAll({ order: [['status', 'DESC'], ['name', 'ASC']] });
         } catch (err) {
-            return { error: err };
+            return { success: false, error: err };
+        }
+    }
+    
+    async getUserActive() {
+        try {
+            return await UserModel.findAll({ where: { status: true }, order: [['name', 'ASC']] });
+        } catch (err) {
+            return { success: false, error: err };
         }
     }
 
     async updateUser(id, dataUpdate){
         try {
-            const [userUpdate] = await UserModel.update(dataUpdate, { where: { id: id } });
-            return userUpdate === 1;
+            await UserModel.update(dataUpdate, { where: { id: id } });
+            return {success: true}
         } catch (err) {
-            return {error: err};
+            return {success: false, error: err};
         }
     }
 }
