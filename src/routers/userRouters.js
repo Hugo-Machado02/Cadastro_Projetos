@@ -15,8 +15,11 @@ router.get("/usuarios/:id", (req, res) => {
 });
 
 router.get("/api/users/getUsers", userController.getAllUsers);
+router.get("/api/users/getUsersActive", userController.getUsersActive);
+router.get("/api/users/:id", userController.getUserId);
 router.post("/api/users/new", userController.addUser);
-router.post("/api/users/update", userController.update);
+router.put("/api/users/updateStatus/:id", userController.updateStatus);
+router.put("/api/users/update/:id", userController.updateUser);
 // router.post("/users/delete", userController.create);
 
 module.exports = router;
