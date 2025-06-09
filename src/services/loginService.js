@@ -8,24 +8,28 @@ class LoginService{
             return {status: 422, error: "Email inválido"}
         }
 
-        const verificaEmail = await UserRepository.getUserEmail(email);
+        const userValidation = await UserRepository.getUserEmail(email);
 
-        if(!verificaEmail){
+        if(!userValidation){
             return {status: 401, error: "E-mail ou senha incorretos"};
         }
 
-        const validaPassword = await bcrypt.compare(password, verificaEmail.password)
+        if(!userValidation.status){
+            return {status: 401, error: "Usuário Inativo no Sistema!"};
+        }
+
+        const validaPassword = await bcrypt.compare(password, userValidation.password)
         if(!validaPassword){
             return {status: 401, error: "E-mail ou senha incorretos"}
         }
         
         const user = {
-            id: verificaEmail.id,
-            name: verificaEmail.name,
-            email: verificaEmail.email
+            id: userValidation.id,
+            name: userValidation.name,
+            email: userValidation.email
         }
 
-        return {succes: true, user: user}
+        return {success: true, user: user}
     }
 
     #emailValidate(email) {
