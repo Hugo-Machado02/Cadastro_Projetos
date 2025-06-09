@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     formEditProject.addEventListener("submit", (event) => {
         event.preventDefault();
         const data = getForm(formEditProject);
-        apiUpdate(`/api/projects/update/${projectId}`, data, "Projeto Alterado com Sucesso", "/projetos")
+        apiUpdate(`/api/projects/update/${projectId}`, data,  "Projeto Alterado com Sucesso", "/projetos")
     });
 
     //================================= Funções =================================
@@ -94,15 +94,4 @@ document.addEventListener('DOMContentLoaded', function() {
             selectMenager.add(option)
         });
     }
-});
-
-$(document).ready(function() {
-    $('#formEditProject').on('shown.bs.modal', function () {
-        $('#managerId').select2({
-            placeholder: "Pesquise um usuário",
-            allowClear: true,
-            minimumInputLength: 1,
-            theme: "bootstrap-5"
-        });
-    });
 });

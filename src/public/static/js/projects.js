@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
             rowEndDate.textContent = formatDate(project.endDate)
 
             const rowManager = row.insertCell();
-            rowManager.textContent = project.managerId
+            rowManager.textContent = project.User.name
 
             row.dataset.projectId = project.id;
 

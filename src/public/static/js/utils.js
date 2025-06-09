@@ -126,10 +126,7 @@ function apiUpdate(api, dados, msg, rota){
     .then(response => {
         if (!response.ok) {
             response.json().then(data => {
-                console.log(response.status)
-                console.log(response.status)
                 if(response.status == 400){
-                    console.log(data.error)
                     return addInvalidInput(data);
                 }
                 toastNotification(data.error, "text-bg-danger");
