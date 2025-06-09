@@ -1,4 +1,5 @@
 const ProjectModel = require("../models/ProjectModel");
+const UserModel = require("../models/UserModel");
 
 class ProjectRepository{
     async createProject(project){
@@ -20,7 +21,13 @@ class ProjectRepository{
 
     async getAllProject() {
         try {
-            return await ProjectModel.findAll({ order: [['name', 'ASC']] });
+            return await ProjectModel.findAll({ 
+                order: [['name', 'ASC']],
+                include: [{
+                    model: UserModel,
+                    attributes: ['id', 'name', 'email']
+                }]
+            });
         } catch (err) {
             return { success: false, error: err };
         }
