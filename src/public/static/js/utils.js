@@ -79,65 +79,69 @@ function formatDate(date){
     const objDate = new Date(date);
     return objDate.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'America/Sao_Paulo' });
 }
-// export function showToast(message, type = 'light') {
-//     const toastElement = document.getElementById('toastMsg');
-//     if (!toastElement) {
-//         console.error("Elemento 'toastMsg' não encontrado. O toast não pode ser exibido.");
-//         return;
-//     }
-//     const toastBody = toastElement.querySelector('.toast-body');
 
-//     toastElement.className = 'toast align-items-center border-0';
+function apiCadastro(dados, api, msg, modal){
+    limpaFeedbacks();
+    fetch(api, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dados)
+    })
+    .then(response => {
+        if (!response.ok) {
+            response.json().then(data => {
+                if(response.status == 400){
+                    return addInvalidInput(data);
+                }
+                toastNotification(data.error, "text-bg-danger");
+            });
+            return;
+        }
+        modal.hide();
+        toastNotification(msg, "text-bg-success");
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
+    })
+    .then(data => {
+        console.log("Dados enviados com sucesso!");
+    })
+    .catch(error => {
+        console.error('Erro ao enviar os dados:', error);
+    });
+}
 
-//     if (type === 'error') {
-//         toastElement.classList.add('text-bg-warning-subtle');
-//         toastBody.classList.add('text-dark');
-//     } else if (type === 'success') {
-//         toastElement.classList.add('text-bg-success-subtle');
-//         toastBody.classList.add('text-dark');
-//     } else {
-//         toastElement.classList.add(`text-bg-${type}`);
-//         toastBody.classList.remove('text-dark');
-//     }
-
-//     toastBody.textContent = message;
-//     const toast = new bootstrap.Toast(toastElement, { delay: 2000 });
-//     toast.show();
-// }
-
-// // Abre o Modal de Erro
-// export function showErrorModal(message) {
-//     const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
-//     const errorModalBody = document.getElementById('errorModalBody');
-//     if (errorModalBody) {
-//         errorModalBody.textContent = message;
-//     } else {
-//         console.error("Elemento 'errorModalBody' não encontrado. O modal de erro não pode exibir a mensagem.");
-//     }
-//     errorModal.show();
-// }
-
-
-// // Exibe os erros de validação retornados pelo Back
-// export function displayValidationErrors(errors) {
-//     let generalErrorsMessages = [];
-
-//     for (const [key, value] of Object.entries(errors)) {
-//         const inputElement = document.getElementById(key);
-//         if (inputElement) {
-            
-//             inputElement.classList.add('is-invalid');
-//             const errorDiv = document.getElementById(`error-${key}`);
-//             if (errorDiv) {
-//                 errorDiv.textContent = value.error;
-//             }
-//         } else {
-//             generalErrorsMessages.push(value.error || 'Erro desconhecido.');
-//         }
-//     }
-
-//     // Exibe erros gerais no modal de erro
-//     if (generalErrorsMessages.length > 0) {
-//         showErrorModal(generalErrorsMessages.join('\n'));
-//     }
-// }
+//API para Alterações
+function apiUpdate(api, dados, msg, rota){
+    limpaFeedbacks();
+    fetch(api, {
+        method: 'put',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dados)
+    })
+    .then(response => {
+        if (!response.ok) {
+            response.json().then(data => {
+                console.log(response.status)
+                console.log(response.status)
+                if(response.status == 400){
+                    console.log(data.error)
+                    return addInvalidInput(data);
+                }
+                toastNotification(data.error, "text-bg-danger");
+            });
+            return;
+        }
+        toastNotification(msg, "text-bg-success");
+        setTimeout(() => {
+            window.location.href = rota;
+        }, 1000);
+    })
+    .catch(error => {
+        console.error('Erro ao enviar os dados:', error);
+    });
+}
