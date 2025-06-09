@@ -1,72 +1,45 @@
-$(document).ready(function() {
-    $('#newUser').on('shown.bs.modal', function () {
-        $('#managerId').select2({
-            placeholder: "Pesquise um usuário",
-            allowClear: true,
-            minimumInputLength: 1,
-            dropdownParent: $('#newUser'),
-            // NOVO: Adicione esta linha para usar o tema Bootstrap
-            theme: "bootstrap-5"
-        });
-    });
-
-    // Se você tiver outras inicializações Select2 fora do modal,
-    // aplique o tema nelas também, se desejar que elas tenham o mesmo estilo.
-    // Exemplo:
-    // $('#algumOutroSelect').select2({
-    //     theme: "bootstrap-5"
-    // });
-});
-
-
 document.addEventListener('DOMContentLoaded', function() {
+    getProjects()
     getUsers()
     const formacadProject = document.getElementById('formCadProjeto');
     const newProjectModal = new bootstrap.Modal(document.getElementById('newProject'));
+    const projectDeleteModal = document.getElementById('projectDeleteModal');
+    const projectDeleteBtn = document.getElementById('projectDeleteBtn');
+    let projectId = ""
 
     formacadProject.addEventListener('submit', function(event) {
         event.preventDefault();
         const data = getForm(formacadProject);
 
-        cadastroUsuario(data);
+        apiCadastro(data, "/api/projetos/new", "Projeto Cadastrado com Sucesso", newProjectModal);
     });
 
-    //cadastro de usuários
-    function cadastroUsuario(dados){
-        limpaFeedbacks();
-        fetch('/api/projetos/new', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(dados)
-        })
-        .then(response => {
-            if (!response.ok) {
-                response.json().then(data => {
-                    if(response.status == 400){
-                        return addInvalidInput(data);
-                    }
-                    toastNotification(data.error, "text-bg-danger");
-                });
-                return;
-            }
-            newProjectModal.hide();
-            toastNotification("Projeto Cadastrado com Sucesso", "text-bg-success");
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
-        })
-        .then(data => {
-           console.log("Dados enviados com sucesso!");
-        })
-        .catch(error => {
-            console.error('Erro ao enviar os dados:', error);
-        });
-    }
+    projectDeleteModal.addEventListener("show.bs.modal", (event) => {
+        const titleProjectSpan = document.getElementById("titleProject");
+        const button = event.relatedTarget;
 
-    //listagem de usuários
-    function getUsers(){
+        projectId = button.dataset.projectId;
+        const userName = button.dataset.projectName;
+
+        if (titleProjectSpan) {
+            titleProjectSpan.textContent = userName;
+        }
+    });
+    
+    projectDeleteBtn.addEventListener("click", function() {
+        if (projectId) {
+            deletaProjetos(projectId)
+        }
+
+        const bsModal = bootstrap.Modal.getInstance(projectDeleteModal);
+        if (bsModal) {
+            bsModal.hide();
+        }
+        projectId = null;
+    });
+
+    //listagem de Projetos
+    function getProjects(){
         fetch('/api/projetos/getProjetos', {
             method: 'GET',
             headers: {
@@ -89,7 +62,45 @@ document.addEventListener('DOMContentLoaded', function() {
         .catch(error => {
             console.error('Erro ao buscar ou processar dados de usuários:', error);
         });
-        }
+    }
+
+    //Busca usuários para a seleção do gerente
+    function getUsers(){
+        fetch('/api/users/getUsersActive', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => {
+            if (!response.ok) {
+                console.log(`Erro HTTP: ${response.status} ${response.statusText}`)
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (Array.isArray(data)) {
+                insereMaganersSelect(data);
+            } else {
+                console.warn('Resposta da API não é um array de usuários:', data);
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao buscar ou processar dados de usuários:', error);
+        });
+    }
+
+
+    //Busca os usuários para seleção de gerentes
+    function insereMaganersSelect(users){
+        const selectMenager = document.getElementById("managerId");
+        
+        users.forEach(user => {
+            const option = new Option(user.name, user.id)
+            selectMenager.add(option)
+            console.log(`${user.name}, ${user.id}`)
+        });
+    }
 
     //Adiciona usuários na tabela
     function addProjectTable(projects) {
@@ -129,6 +140,64 @@ document.addEventListener('DOMContentLoaded', function() {
             rowManager.textContent = project.managerId
 
             row.dataset.projectId = project.id;
+
+            const rowButton = row.insertCell();
+
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.setAttribute('data-bs-toggle', 'modal');
+            button.setAttribute('data-project-id', project.id);
+            button.setAttribute('data-project-name', project.name);
+            
+            button.classList.add('btn', 'btn-sm', 'btn-danger');
+            button.setAttribute('data-bs-target', '#projectDeleteModal');
+            button.innerHTML = `<span class="material-icons-round" style="font-size: 1.1rem;">delete</span>`;
+
+            button.addEventListener('click', (event) => {
+                event.stopPropagation();
+            });
+
+            rowButton.appendChild(button);
         });
     }
+
+
+    //API para Cadastro
+    function deletaProjetos(id){
+        limpaFeedbacks();
+        fetch(`/api/projetos/delete/${id}`, {
+            method: 'delete',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => {
+            if (!response.ok) {
+                response.json().then(data => {
+                    toastNotification(data.error, "text-bg-danger");
+                });
+                return;
+            }
+            location.reload();
+        })
+        .then(data => {
+           console.log("Dados enviados com sucesso!");
+        })
+        .catch(error => {
+            console.error('Erro ao enviar os dados:', error);
+        });
+    }
+
+});
+
+$(document).ready(function() {
+    $('#newProject').on('shown.bs.modal', function () {
+        $('#managerId').select2({
+            placeholder: "Pesquise um usuário",
+            allowClear: true,
+            minimumInputLength: 1,
+            dropdownParent: $('#newProject'),
+            theme: "bootstrap-5"
+        });
+    });
 });

@@ -18,16 +18,13 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-primary shadow-sm fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand fs-4 fw-bold text-white" href="/">Meu Sistema</a>
+            <a class="navbar-brand fs-4 fw-bold text-white" href="/">NexusPro</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link text-white" aria-current="page" href="/">Início</a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link active text-white" href="/usuarios">Usuários</a>
                     </li>
@@ -61,6 +58,7 @@
                         <th scope="col">Início</th>
                         <th scope="col">Entrega</th>
                         <th scope="col">Gerente</th>
+                        <th scope="col">Ação</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -81,8 +79,8 @@
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label for="name" class="col-form-label ms-1">Nome</label>
-                                <input type="text" class="form-control" name="name" id="name" placeholder="Digite o Nome do Usuário">
+                                <label for="name" class="col-form-label ms-1">Titulo</label>
+                                <input type="text" class="form-control" name="name" id="name" autocomplete="off" placeholder="Digite Titulo do Projeto">
                                 <div class="invalid-feedback" id="error-name"></div>
                             </div>
                             <div class="mb-3">
@@ -103,22 +101,6 @@
                                 <label for="managerId" class="col-form-label ms-1">Gerente do Projeto</label>
                                 <select class="form-select" aria-label="Default select example" id="managerId" name="managerId">
                                     <option disabled selected>Selecione o Usuário</option>
-                                    <option value="1">Hugo Machado</option>
-                                    <option value="2">Marcos</option>
-                                    <option value="3">Mathias</option>
-                                    <option value="4">Thiago</option>
-                                    <option value="5">João</option>
-                                    <option value="6">Mychael</option>
-                                    <option value="7">Ana Silva</option>
-                                    <option value="8">Carlos Santos</option>
-                                    <option value="9">Maria Oliveira</option>
-                                    <option value="10">Pedro Costa</option>
-                                    <option value="11">Luiza Pereira</option>
-                                    <option value="12">Fernanda Lima</option>
-                                    <option value="13">Ricardo Almeida</option>
-                                    <option value="14">Patrícia Souza</option>
-                                    <option value="15">Eduardo Rocha</option>
-                                    <option value="16">Sandra Martins</option>
                                 </select>
                             </div>
                         </div>
@@ -131,41 +113,21 @@
             </div>
         </form>
 
-        <div class="modal fade" id="confirmActivateModal" tabindex="-1" aria-labelledby="confirmActivateModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content border-primary">
-                    <div class="modal-header bg-primary text-white">
-                        <h5 class="modal-title" id="confirmActivateModalLabel">Confirmar Reativação</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Deseja reativar o usuário <strong id="userNameToActivate"></strong>?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary" id="confirmDeleteBtn">Reativar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
+        <div class="modal fade" id="projectDeleteModal" tabindex="-1" aria-labelledby="projectDeleteModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content border-danger">
                     <div class="modal-header bg-danger text-white">
-                        <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Exclusão</h5>
+                        <h5 class="modal-title" id="projectDeleteModalLabel">Confirmar Exclusão</h5>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p>Deseja excluir o usuário <strong id="userNameToDelete"></strong>?</p>
+                        <p>Deseja excluir o Projeto <strong id="titleProject"></strong>?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Excluir</button>
+                        <button type="button" class="btn btn-danger" id="projectDeleteBtn">Excluir</button>
                     </div>
                 </div>
             </div>

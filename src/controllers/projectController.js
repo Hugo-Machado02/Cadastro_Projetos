@@ -9,6 +9,16 @@ module.exports = {
         res.status(200).json(projects);
     },
 
+    getProjectId: async (req, res) => {
+        const {id} = req.params;
+
+        const project = await ProjectService.getProjectId(id);
+        if(!project || project.length === 0){
+            res.status(204).send();
+        }
+        res.status(200).json(project);
+    },
+
     addProject: async (req, res) => {
         const data = req.body;
         const errors = {};
@@ -22,6 +32,9 @@ module.exports = {
         if (!data.endDate) {
             errors.endDate = {error: "Data não Selecionada"};
         }
+        if(data.startDate > data.endDate){
+            errors.endDate = {error: "A data de entrega está antes da data de inicio"};
+        }
         if (!data.managerId) {
             errors.managerId = {error: "Gerente do Projeto não selecionado"};
         }
@@ -31,23 +44,57 @@ module.exports = {
         }
 
         const newProject = await ProjectService.addProject(data);
-        if(newProject.succes){
+        if(newProject.success){
             return res.status(201).json({ newProject })
         }
         return res.status(newProject.status).json({ error: newProject.error })
     },
 
-    // update: async (req, res) => {
-    //     const { id, name, email, password } = req.body;
-    //     if (id && name && email && password) {
-    //         const resultUpdate = await userModel.updateUser(req.body);
-    //         if (resultUpdate) {
-    //             res.json({ status: 200, data: "Alteração realizada com Sucesso" });
-    //         } else {
-    //             res.json({ status: 500, data: "Erro ao realizar a alteração" });
-    //         }
-    //     } else {
-    //         res.json({ status: 500, data: "Dados Faltando" });
-    //     }
-    // },
+    updateProject: async (req, res) => {
+        const {id} = req.params;
+        const data = req.body;
+        const dataEnvio = {}
+        const errors = {}
+
+        if(data.name){
+            dataEnvio.name = data.name;
+        }
+
+        if(data.startDate > data.endDate){
+            errors.endDate = {error: "A data de entrega está antes da data de inicio"};
+        }
+
+        if(data.startDate){
+            dataEnvio.startDate;
+        }
+
+        if(data.endDate){
+            dataEnvio.endDate;
+        }
+
+        if(data.managerId){
+            dataEnvio.managerId;
+        }
+
+        if(Object.keys(errors).length > 0){
+            return res.status(400).json(errors);
+        }
+
+        const updateProject = await ProjectService.updateProject(id, dataEnvio)
+
+        if(updateProject.success){
+            return res.status(200).json({ updateProject })
+        }
+        return res.status(updateProject.status).json({ error: updateProject.error })
+    },
+
+    deleteProject: async (req, res) => {
+        const {id} = req.params;
+
+        const deleteProject = await ProjectService.deleteProject(id);
+        if(deleteProject.success){
+            return res.status(201).json({ deleteProject })
+        }
+        return res.status(deleteProject.status).json({ error: deleteProject.error })
+    },
 };

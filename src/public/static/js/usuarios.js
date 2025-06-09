@@ -2,46 +2,64 @@ document.addEventListener('DOMContentLoaded', function() {
     getUsers()
     const formaCadUser = document.getElementById('formCadUser');
     const newUserModal = new bootstrap.Modal(document.getElementById('newUser'));
+    const confirmDeleteModal = document.getElementById('confirmDeleteModal');
+    const confirmDeleteButton = document.getElementById('confirmDeleteBtn');
+    const confirmActivateModal = document.getElementById('confirmActivateModal');
+    const confirmActivateButton = document.getElementById('confirmActivateBtn');
+    let userIdOperation = null;
 
-    formaCadUser.addEventListener('submit', function(event) {
+    formaCadUser.addEventListener("submit", (event) => {
         event.preventDefault();
         const data = getForm(formaCadUser);
 
-        cadastroUsuario(data);
+        apiCadastro(data, "/api/users/new", "Usuário Cadastrado com Sucesso", newUserModal);
     });
 
-    //cadastro de usuários
-    function cadastroUsuario(dados){
-        limpaFeedbacks();
-        fetch('/api/users/new', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(dados)
-        })
-        .then(response => {
-            if (!response.ok) {
-                response.json().then(data => {
-                    if(response.status == 400){
-                        return addInvalidInput(data);
-                    }
-                    toastNotification(data.error, "text-bg-danger");
-                });
-                return;
-            }
-            newUserModal.hide();
-            toastNotification("Usuário Cadastrado com Sucesso", "text-bg-success");
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
-        })
-        .then(data => {
-           console.log("Dados enviados com sucesso!");
-        })
-        .catch(error => {
-            console.error('Erro ao enviar os dados:', error);
-        });
+    //eventos para desativar um usuário
+    confirmDeleteModal.addEventListener("show.bs.modal", (event) => {
+        const UserNameDelete = document.getElementById("userNameDelete");
+        const button = event.relatedTarget;
+
+        userIdOperation = button.dataset.userId;
+        const userName = button.dataset.userName;
+
+        if (UserNameDelete) {
+            UserNameDelete.textContent = userName;
+        }
+    });
+    
+    confirmDeleteButton.addEventListener("click", function() {
+        validaConfirmacao(confirmDeleteModal);
+    });
+
+
+    //evento para Reativar um usuário
+    confirmActivateModal.addEventListener("show.bs.modal", (event) => {
+        const userNameSpan = document.getElementById("userNameActivate");
+        const button = event.relatedTarget;
+
+        userIdOperation = button.dataset.userId;
+        const userName = button.dataset.userName;
+
+        if (userNameSpan) {
+            userNameSpan.textContent = userName;
+        }
+    });
+
+    confirmActivateButton.addEventListener("click", function() {
+        validaConfirmacao(confirmActivateModal);
+    });
+
+    function validaConfirmacao(modal){
+        if (userIdOperation) {
+            alteraStatusUsuario(userIdOperation)
+        }
+
+        const bsModal = bootstrap.Modal.getInstance(modal);
+        if (bsModal) {
+            bsModal.hide();
+        }
+        userIdOperation = null;
     }
 
     //listagem de usuários
@@ -68,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .catch(error => {
             console.error('Erro ao buscar ou processar dados de usuários:', error);
         });
-        }
+    }
 
     //Adiciona usuários na tabela
     function addUsersTable(users) {
@@ -130,6 +148,32 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             rowButton.appendChild(button);
+        });
+    }
+
+    //Realiza a alteração do status do usuário
+    function alteraStatusUsuario(id){
+        limpaFeedbacks();
+        fetch(`/api/users/updateStatus/${id}`, {
+            method: 'put',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                response.json().then(data => {
+                    toastNotification(data.error, "text-bg-danger");
+                });
+                return;
+            }
+            location.reload();
+        })
+        .then(data => {
+           console.log("Dados enviados com sucesso!");
+        })
+        .catch(error => {
+            console.error('Erro ao enviar os dados:', error);
         });
     }
 });
