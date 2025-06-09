@@ -19,13 +19,13 @@ module.exports = {
 
         const result = await LoginService.login(email, password);
 
-        if(result.succes){
+        if(result.success){
             req.session.user = {
                 id: result.user.id,
                 name: result.user.name,
                 email: result.user.email,
             };
-            return res.status(200).json({succes: true, user: req.session.user});
+            return res.status(200).json({success: true, user: req.session.user});
         }
         return res.status(result.status).json({ error: result.error });
     },

@@ -4,9 +4,9 @@ class ProjectRepository{
     async createProject(project){
         try {
             await ProjectModel.create(project);
-            return {sucess: true}
+            return {success: true}
         } catch (err) {
-            return {sucess: false, error: err};
+            return {success: false, error: err};
         }
     }
 
@@ -14,7 +14,7 @@ class ProjectRepository{
         try {
             return await ProjectModel.findByPk(id)
         } catch (err) {
-            return {error: err};
+            return {success: false, error: err};
         }
     }
 
@@ -22,7 +22,7 @@ class ProjectRepository{
         try {
             return await ProjectModel.findAll({ order: [['name', 'ASC']] });
         } catch (err) {
-            return { error: err };
+            return { success: false, error: err };
         }
     }
 
@@ -30,16 +30,25 @@ class ProjectRepository{
         try {
             return await ProjectModel.findAll({ where: { managerId: managerId }, order: [['name', 'ASC']] });
         } catch (err) {
-            return { error: err };
+            return { success: false, error: err };
         }
     }
 
     async updateProject(id, dataUpdate){
         try {
             const [userUpdate] = await ProjectModel.update(dataUpdate, { where: { id: id } });
-            return userUpdate === 1;
+            return {success: true}
         } catch (err) {
-            return {error: err};
+            return {success: false, error: err};
+        }
+    }
+
+    async deleteProject(id){
+        try {
+            await ProjectModel.destroy({ where: { id: id } });
+            return {success: true};
+        } catch (err) {
+            return {success: false, error: err};
         }
     }
 }
