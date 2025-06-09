@@ -6,6 +6,10 @@ class UserService{
         return await ProjectRepository.getAllProject();
     }
 
+    async getProjectId(id){
+        return await ProjectRepository.getProjectId(id);
+    }
+
     async addProject(data){
         const userManager = await UserRepository.getUserId(data.managerId);
         if(!userManager){
@@ -17,11 +21,60 @@ class UserService{
         
         const newProject = await ProjectRepository.createProject(data);
         
-        if(!newProject.sucess){
+        if(!newProject.success){
             return {status: 500, error: "Não foi possível cadastrar o Projeto"}
         }
 
-        return {succes: true}
+        return {success: true}
+    }
+
+    async updateProject(id, data){
+        const dataUpdate = {}
+
+        const projectValidation = await ProjectRepository.getProjectId(id);
+        if(!projectValidation){
+            return {status: 404, error: "Projeto não encontrado"}
+        }
+
+        if (data.name && data.name != projectValidation.name){
+            dataUpdate.name = data.name;
+        }
+
+        if (data.managerId && data.managerId != projectValidation.managerId){
+            dataUpdate.managerId = data.managerId;
+        }
+
+        if (data.startDate){
+            data.startDate = this.#converteString(data.startDate);
+            if(data.startDate != projectValidation.startDate){
+                dataUpdate.startDate = data.startDate;
+            }  
+        }
+
+        if (data.endDate){
+            data.endDate = this.#converteString(data.endDate);
+            if(data.endDate != projectValidation.endDate){
+                dataUpdate.endDate = data.endDate;
+            }  
+        }
+
+        if(Object.keys(dataUpdate).length > 0){
+            const result = await ProjectRepository.updateProject(id, dataUpdate);
+
+            if(!result.success){
+                return {status: 500, error: "Não foi possível cadastrar o Usuário"}
+            }
+            return {success: true}
+        }
+        return {status: 500, error: "Dados iguais! Sem necessidade de alteração"}
+    }
+
+    async deleteProject(id){
+        const result = await ProjectRepository.deleteProject(id);
+        if(!result.success){
+            return {status: 500, error: "Não foi possível Deletar o Projeto"}
+        }
+        return {success: true}
     }
 
     #converteString(date){
