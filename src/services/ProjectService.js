@@ -46,17 +46,19 @@ class UserService{
 
         if (data.startDate){
             data.startDate = this.#converteString(data.startDate);
-            if(data.startDate != projectValidation.startDate){
+            if(Number(data.startDate) != Number(projectValidation.startDate)){
                 dataUpdate.startDate = data.startDate;
             }  
         }
 
         if (data.endDate){
             data.endDate = this.#converteString(data.endDate);
-            if(data.endDate != projectValidation.endDate){
+            if(Number(data.endDate) != Number(projectValidation.endDate)){
                 dataUpdate.endDate = data.endDate;
             }  
         }
+        
+        console.log(dataUpdate)
 
         if(Object.keys(dataUpdate).length > 0){
             const result = await ProjectRepository.updateProject(id, dataUpdate);
