@@ -40,7 +40,6 @@ startDatabase()
     .then(() => {
         const service = app.listen(process.env.PORT, () => {
             console.log(`Servidor rodando na porta ${service.address().port}`);
-            console.log('Modelos User e Project sincronizados com o banco de dados.');
         });
     })
     .catch(error => {
