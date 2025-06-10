@@ -4,7 +4,7 @@ const router = express.Router();
 const userController = require("../controllers/userController");
 
 router.get("/usuarios", (req, res) => {
-  const userName = req.session.user.name || "Hugo Machado";
+  const userName = req.session.user.name;
   res.render("usuarios", { userName: userName });
 });
 
