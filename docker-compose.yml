@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  app:
+    image: hugomachadoifgoinao/entregadocker01
+    container_name: cadastro-projetos
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=development
+      - PORT=8080
+      - SECRET_KEY=Ht5Yk9LzQ7wX3pRm2vB8nA6cD1eF0jS4
+      - URL_CLIENT=http://localhost:8080
+      - SESSION_EXPIRY=86400000
