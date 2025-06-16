@@ -2,146 +2,125 @@
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    kompose.cmd: C:\Program Files\Kompose\kompose.exe convert --volumes hostPath -o kubernetes.yaml
-    kompose.version: 1.36.0 (ae2a39403)
-  labels:
-    io.kompose.service: app
   name: app
+  labels:
+    app: cadastro-projetos
 spec:
   ports:
-    - name: "3000"
-      port: 3000
+    - port: 3000
       targetPort: 3000
+      nodePort: 30000
   selector:
-    io.kompose.service: app
+    app: cadastro-projetos
+    tier: frontend
+  type: NodePort
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    kompose.cmd: C:\Program Files\Kompose\kompose.exe convert --volumes hostPath -o kubernetes.yaml
-    kompose.version: 1.36.0 (ae2a39403)
-  labels:
-    io.kompose.service: db
   name: db
+  labels:
+    app: cadastro-projetos
 spec:
   ports:
-    - name: "3307"
-      port: 3307
+    - port: 3306
       targetPort: 3306
+      nodePort: 30306
   selector:
-    io.kompose.service: db
+    app: cadastro-projetos
+    tier: database
+  type: NodePort
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: C:\Program Files\Kompose\kompose.exe convert --volumes hostPath -o kubernetes.yaml
-    kompose.version: 1.36.0 (ae2a39403)
-  labels:
-    io.kompose.service: app
   name: app
+  labels:
+    app: cadastro-projetos
+    tier: frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: app
+      app: cadastro-projetos
+      tier: frontend
   strategy:
     type: Recreate
   template:
     metadata:
-      annotations:
-        kompose.cmd: C:\Program Files\Kompose\kompose.exe convert --volumes hostPath -o kubernetes.yaml
-        kompose.version: 1.36.0 (ae2a39403)
       labels:
-        io.kompose.service: app
+        app: cadastro-projetos
+        tier: frontend
     spec:
       containers:
-        - args:
-            - sh
-            - -c
-            - sleep 10 && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all && npm start
+        - name: app
+          image: cadastro-projetos:latest
+          imagePullPolicy: Never
+          command: ["/bin/sh", "-c"]
+          args:
+            - "npm install && npm install sequelize && sleep 10 && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all && npm start"
           env:
-            - name: DB_HOST
-              value: db
             - name: DB_NAME
               value: cadastro_produtos
-            - name: DB_PASSWORD
-              value: Developer@3306
+            - name: DB_HOST
+              value: db
             - name: DB_USERNAME
               value: root
+            - name: DB_PASSWORD
+              value: Developer@3306
+            - name: SECRET_KEY
+              value: F}R%`5UlK_u8~O}S9xF(1li1Dw(Vf{sSy*SVu`q,HJ1?%PH#<EQtfbxm4AaiPB>
             - name: NODE_ENV
               value: development
             - name: PORT
               value: "3000"
-            - name: SECRET_KEY
-              value: F}R%`5UlK_u8~O}S9xF(1li1Dw(Vf{sSy*SVu`q,HJ1?%PH#<EQtfbxm4AaiPB>
             - name: SESSION_EXPIRY
               value: "8640000"
-          image: app
-          name: app
+            - name: HOST
+              value: "0.0.0.0"
           ports:
             - containerPort: 3000
-              protocol: TCP
-          volumeMounts:
-            - mountPath: /app
-              name: app-hostpath0
-            - mountPath: /app/node_modules
-              name: app-hostpath1
-      restartPolicy: Always
       volumes:
-        - hostPath:
-            path: C:\Users\hugo_\Documents\Projetos - Estudo\Cadastro_Projetos
-          name: app-hostpath0
-        - hostPath:
-            path: C:\Users\hugo_\Documents\Projetos - Estudo\Cadastro_Projetos
-          name: app-hostpath1
+        - name: node-modules
+          emptyDir: {}
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: C:\Program Files\Kompose\kompose.exe convert --volumes hostPath -o kubernetes.yaml
-    kompose.version: 1.36.0 (ae2a39403)
-  labels:
-    io.kompose.service: db
   name: db
+  labels:
+    app: cadastro-projetos
+    tier: database
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: db
+      app: cadastro-projetos
+      tier: database
   strategy:
     type: Recreate
   template:
     metadata:
-      annotations:
-        kompose.cmd: C:\Program Files\Kompose\kompose.exe convert --volumes hostPath -o kubernetes.yaml
-        kompose.version: 1.36.0 (ae2a39403)
       labels:
-        io.kompose.service: db
+        app: cadastro-projetos
+        tier: database
     spec:
       containers:
-        - env:
-            - name: MYSQL_DATABASE
-              value: cadastro_produtos
+        - name: db
+          image: mysql:8.0
+          env:
             - name: MYSQL_ROOT_PASSWORD
               value: Developer@3306
-          image: mysql:8.0
-          name: db
+            - name: MYSQL_DATABASE
+              value: cadastro_produtos
           ports:
             - containerPort: 3306
-              protocol: TCP
           volumeMounts:
-            - mountPath: /var/lib/mysql
-              name: mysql-data
-      restartPolicy: Always
+            - name: mysql-data
+              mountPath: /var/lib/mysql
       volumes:
-        - hostPath:
-            path: C:\Users\hugo_\Documents\Projetos - Estudo\Cadastro_Projetos
-          name: mysql-data
-
+        - name: mysql-data
+          emptyDir: {}
