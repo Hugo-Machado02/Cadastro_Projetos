@@ -144,4 +144,14 @@ dist
 # SvelteKit build / generate output
 .svelte-kit
 
+# Docker volumes data
+data/
+mysql_data/
+
+# IDE specific files
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
 # End of https://www.toptal.com/developers/gitignore/api/node
