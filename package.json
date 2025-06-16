@@ -16,7 +16,11 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "db:migrate": "npx sequelize-cli db:migrate",
+    "db:migrate:undo": "npx sequelize-cli db:migrate:undo",
+    "db:migrate:undo:all": "npx sequelize-cli db:migrate:undo:all",
+    "db:seed": "npx sequelize-cli db:seed:all"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
@@ -27,11 +31,13 @@
     "express": "^5.1.0",
     "express-session": "^1.18.1",
     "jquery": "^3.7.1",
+    "mysql2": "^3.14.1",
     "nodemon": "^3.1.10",
     "path": "^0.12.7",
     "select2": "^4.1.0-rc.0",
-    "sequelize": "^6.37.7",
-    "sqlite": "^5.1.1",
-    "sqlite3": "^5.1.7"
+    "sequelize": "^6.37.7"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.6.3"
   }
 }
