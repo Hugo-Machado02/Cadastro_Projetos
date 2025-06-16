@@ -2,17 +2,18 @@ const express = require("express");
 const cors = require("cors");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
-const apiRoutes = require("./routers/configRouters");
 const path = require("path");
+const bcrypt = require("bcrypt");
 require("dotenv").config({ path: ".env" });
+
 const sequelize = require("./db/connection");
 
-const { startDatabase } = require("./db/startDb");
+const apiRoutes = require("./routers/configRouters");
 
 const app = express();
 app.use(cors({
-    origin: process.env.URL_CLIENT,
-    credentials: true, // Essencial para permitir o envio de cookies de sessão
+    origin: "*",
+    credentials: true,
 }));
 
 app.use(express.json());
@@ -36,9 +37,11 @@ app.set('views', path.join(__dirname, 'public', 'views'));
 app.use('/static', express.static(path.join(__dirname, 'public', 'static')));
 app.use("/", apiRoutes);
 
-startDatabase()
-    .then(() => {
-        const service = app.listen(process.env.PORT, () => {
+sequelize.sync()
+    .then(async () => {
+        console.log('Banco de dados sincronizado com sucesso');
+        
+        const service = app.listen(process.env.PORT || 3000, () => {
             console.log(`Servidor rodando na porta ${service.address().port}`);
         });
     })
