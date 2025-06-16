@@ -1,7 +1,12 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../db/connection');
+const { DataTypes } = require("sequelize");
+const sequelize = global.sequelizeInstance;
 
-const User = sequelize.define('User', {
+const user = sequelize.define('users', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    },
     name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -23,12 +28,6 @@ const User = sequelize.define('User', {
         type: DataTypes.BOOLEAN,
         allowNull: false,
     },
-},
-{
-    sequelize,
-    tableName: 'users',
-    timestamps: false,
-    
 });
 
-module.exports = User;
+module.exports = user;

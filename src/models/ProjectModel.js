@@ -1,7 +1,13 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../db/connection");
+const sequelize = global.sequelizeInstance;
+const UserModel = require("./UserModel");
 
-const Project = sequelize.define("Project", {
+const project = sequelize.define("projects", {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    },
     name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -18,11 +24,11 @@ const Project = sequelize.define("Project", {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-},
-{
-    sequelize,
-    tableName: "projects",
-    timestamps: false,
 });
 
-module.exports = Project;
+project.belongsTo(UserModel, { 
+    foreignKey: 'managerId',
+    as: 'User'
+});
+
+module.exports = project;

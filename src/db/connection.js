@@ -1,13 +1,24 @@
-const path = require("path");
 const { Sequelize } = require("sequelize");
 require("dotenv").config();
 
-const dbPath = process.env.DB_PATH || "database.sqlite";
+console.log("Tentando conectar ao banco de dados:");
+console.log(`Host: ${process.env.DB_HOST}`);
+console.log(`Database: ${process.env.DB_NAME}`);
+console.log(`Username: ${process.env.DB_USERNAME}`);
 
-const sequelize = new Sequelize({
-  dialect: "sqlite",
-  storage: path.join(__dirname, "../../", dbPath),
-  logging: process.env.NODE_ENV === "development" ? console.log : false,
+const sequelizeInstance = new Sequelize({
+  database: process.env.DB_NAME,
+  host: process.env.DB_HOST,
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  dialect: "mysql",
+  logging: false,
+  retry: {
+    max: 10,
+    timeout: 30000
+  }
 });
 
-module.exports = sequelize;
+global.sequelizeInstance = sequelizeInstance;
+
+module.exports = sequelizeInstance;

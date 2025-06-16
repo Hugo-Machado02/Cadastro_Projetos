@@ -1,13 +1,12 @@
-const { error } = require("jquery");
 const ProjectService = require("../services/ProjectService");
 
 module.exports = {
     getAllProject: async (req, res) => {
         const projects = await ProjectService.getAllProjects();
         if(!projects || projects.length === 0){
-            res.status(204).send();
+            return res.status(204).send();
         }
-        res.status(200).json(projects);
+        return res.status(200).json(projects);
     },
 
     getProjectId: async (req, res) => {
@@ -15,9 +14,9 @@ module.exports = {
 
         const project = await ProjectService.getProjectId(id);
         if(!project || project.length === 0){
-            res.status(204).send();
+            return res.status(204).send();
         }
-        res.status(200).json(project);
+        return res.status(200).json(project);
     },
 
     addProject: async (req, res) => {
