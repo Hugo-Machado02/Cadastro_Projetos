@@ -2,22 +2,20 @@ FROM node:18-alpine
 
 WORKDIR /app
 
+# Instalar ferramentas de rede para diagnóstico
+RUN apk add --no-cache iputils curl
+
 # Copiar arquivos de dependências
 COPY package*.json ./
+
+# Instalar dependências
 RUN npm install
 
-# Copiar o restante dos arquivos
+# Copiar o restante dos arquivos do projeto
 COPY . .
 
-# Configurar variáveis de ambiente explicitamente
-ENV NODE_ENV=development
-ENV PORT=8080
-ENV SECRET_KEY=Ht5Yk9LzQ7wX3pRm2vB8nA6cD1eF0jS4
-ENV URL_CLIENT=http://localhost:8080
-ENV SESSION_EXPIRY=86400000
-ENV DB_PATH=database.sqlite
+# Expor a porta que a aplicação usa
+EXPOSE 3000
 
-# Expor a porta da aplicação explicitamente
-EXPOSE 8080
-
+# Comando para iniciar a aplicação
 CMD ["npm", "start"]

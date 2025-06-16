@@ -3,5 +3,6 @@ npm-debug.log
 .git
 .gitignore
 .env
-.env-example
-README.md
+.dockerignore
+Dockerfile
+docker-compose.yml

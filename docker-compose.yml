@@ -1,15 +1,36 @@
-version: '3'
+version: '3.8'
 
 services:
   app:
-    image: hugomachadoifgoinao/entregadocker01
-    container_name: cadastro-projetos
-    restart: unless-stopped
+    build: .
     ports:
-      - "8080:8080"
+      - "3000:3000"
+    depends_on:
+      - db
     environment:
+      - DB_NAME=cadastro_produtos
+      - DB_HOST=db
+      - DB_USERNAME=root
+      - DB_PASSWORD=Developer@3306
+      - SECRET_KEY=F}R%`5UlK_u8~O}S9xF(1li1Dw(Vf{sSy*SVu`q,HJ1?%PH#<EQtfbxm4AaiPB>
       - NODE_ENV=development
-      - PORT=8080
-      - SECRET_KEY=Ht5Yk9LzQ7wX3pRm2vB8nA6cD1eF0jS4
-      - URL_CLIENT=http://localhost:8080
-      - SESSION_EXPIRY=86400000
+      - PORT=3000
+      - SESSION_EXPIRY=8640000
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    command: >
+      sh -c "sleep 10 && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all && npm start"
+
+  db:
+    image: mysql:8.0
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=Developer@3306
+      - MYSQL_DATABASE=cadastro_produtos
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
