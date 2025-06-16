@@ -1,7 +1,7 @@
 const ProjectRepository = require("../repositories/ProjectRepository");
 const UserRepository = require("../repositories/UserRepository")
 
-class UserService{
+class ProjectService{
     async getAllProjects(){
         return await ProjectRepository.getAllProject();
     }
@@ -85,4 +85,4 @@ class UserService{
     }
 }
 
-module.exports = new UserService();
+module.exports = new ProjectService();
