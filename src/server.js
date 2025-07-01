@@ -41,7 +41,7 @@ sequelize.sync()
     .then(async () => {
         console.log('Banco de dados sincronizado com sucesso');
         
-        const service = app.listen(process.env.PORT || 3000, () => {
+        const service = app.listen(process.env.PORT || 3000, '0.0.0.0', () => {
             console.log(`Servidor rodando na porta ${service.address().port}`);
         });
     })

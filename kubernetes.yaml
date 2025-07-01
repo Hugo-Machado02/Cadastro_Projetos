@@ -63,7 +63,7 @@ spec:
           imagePullPolicy: Never
           command: ["/bin/sh", "-c"]
           args:
-            - "npm install && npm install sequelize && sleep 10 && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all && npm start"
+            - "sleep 15 && npx sequelize-cli db:migrate && (npx sequelize-cli db:seed:all || true) && npm start"
           env:
             - name: DB_NAME
               value: cadastro_produtos
